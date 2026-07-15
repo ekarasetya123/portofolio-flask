@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Tentang Saya - Portofolio{% endblock %}
+
+{% block content %}
+<section class="about">
+    <div class="section-container">
+        <h2>Tentang Saya</h2>
+        <div class="about-intro">
+            <div class="profile-image">
+                {% if profile.foto_profil %}
+                <img src="{{ url_for('uploaded_file', filename=profile.foto_profil) }}" alt="Foto Profil {{ profile.nama_lengkap }}">
+                {% else %}
+                <img src="{{ url_for('static', filename='uploads/default-profile.jpg') }}" alt="Foto Profil">
+                {% endif %}
+            </div>
+            <div class="about-text">
+                <h1>{{ profile.nama_lengkap }}</h1>
+                <div class="headline">{{ profile.headline }}</div>
+                <p>{{ profile.about|safe }}</p>
+            </div>
+        </div>
+        <div class="education-section">
+            <h3>Pendidikan</h3>
+            <div class="education-items">
+                {% set pendidikan = profile.get_pendidikan_list() %}
+                {% for edu in pendidikan %}
+                <div class="education-item">
+                    <h3>{{ edu.institusi }}</h3>
+                    <p class="institution">{{ edu.jurusan }}</p>
+                    <p class="date">{{ edu.tahun }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="skills-section">
+            <h3>Keahlian</h3>
+            <div class="skills-grid">
+                {% if skills %}
+                {% for skill in skills %}
+                <div class="skill-item">
+                    <h4>{{ skill.name }}</h4>
+                    <p><small>{{ skill.category }}</small></p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: {{ skill.level }}%;"></div>
+                    </div>
+                    <p>{{ skill.level }}%</p>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>Belum ada keterampilan yang ditambahkan.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Admin{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Dashboard Administrator</h1>
+        <p>Selamat datang, {{ current_user.username }}! Berikut adalah ringkasan aktivitas situs Anda.</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <div class="stat-content">
+                <h3>Total Proyek</h3>
+                <p class="stat-number">{{ total_projects }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="stat-content">
+                <h3>Pesan Masuk</h3>
+                <p class="stat-number">{{ total_messages }}</p>
+                <p class="badge badge-warning">{{ unread_messages }} Belum Dibaca</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="stat-content">
+                <h3>Keterampilan</h3>
+                <p class="stat-number">{{ total_skills }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-actions">
+        <a href="{{ url_for('admin_projects') }}" class="btn">Kelola Proyek</a>
+        <a href="{{ url_for('admin_skills') }}" class="btn">Kelola Skill</a>
+        <a href="{{ url_for('edit_profile') }}" class="btn">Edit Profil</a>
+        <a href="{{ url_for('admin_messages') }}" class="btn">Kotak Masuk</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.judul if project else 'Detail Proyek' }} - Portofolio{% endblock %}
+
+{% block content %}
+{% if project %}
+<section class="project-detail">
+    <div class="project-detail-header">
+        {% if project.gambar %}
+        <img src="{{ url_for('uploaded_file', filename=project.gambar) }}" alt="{{ project.judul }}" class="project-hero-image">
+        {% else %}
+        <div class="placeholder-image-large">Gambar Tidak Tersedia</div>
+        {% endif %}
+        <div class="project-detail-content">
+            <h1>{{ project.judul }}</h1>
+            <div class="project-tags">
+                {% if project.teknologi %}
+                {% for tech in project.teknologi.split(',') %}
+                <span class="tag">{{ tech.strip() }}</span>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="project-detail-body">
+        <div class="container">
+            <section class="project-description">
+                <h2>Deskripsi</h2>
+                <p>{{ project.deskripsi_lengkap }}</p>
+            </section>
+
+            {% if project.github_link or project.live_link %}
+            <section class="project-links">
+                <h2>Tautan</h2>
+                <div>
+                    {% if project.github_link %}
+                    <a href="{{ project.github_link }}" target="_blank" class="btn btn-outline">GitHub Repository</a>
+                    {% endif %}
+                    {% if project.live_link %}
+                    <a href="{{ project.live_link }}" target="_blank" class="btn btn-outline">Lihat Demo Langsung</a>
+                    {% endif %}
+                </div>
+            </section>
+            {% endif %}
+
+            {% if project.github_link %}
+            <section class="projects-related">
+                <h2>Repositori Terkait</h2>
+                <p>Anda juga boleh mencari repositori serupa di GitHub.</p>
+                <!-- You could add a list of related projects here -->
+            </section>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% else %}
+<div class="container">
+    <h2>Proyek Tidak Ditemukan</h2>
+    <p>Proyek yang Anda cari tidak ada atau telah dihapus.</p>
+    <a href="{{ url_for('portfolio') }}" class="btn">Kembali ke Portofolio</a>
+</div>
+{% endif %}
+{% endblock %}

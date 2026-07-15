@@ -1,0 +1,31 @@
+# Database
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Virtual environment
+venv/
+env/
+
+# Uploads (gambar user, jangan ikut ke repo)
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Backup & log files
+*.backup
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup & test files
+*.bak
+*.bak2
+*.bak3
+*.test

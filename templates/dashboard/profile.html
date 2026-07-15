@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profil - Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Edit Profil</h1>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Kembali ke Dashboard</a>
+    </div>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.nama_lengkap.label(class="form-label") }}
+            {{ form.nama_lengkap(class="form-input", value=profile.nama_lengkap) }}
+            {% for error in form.nama_lengkap.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.nim.label(class="form-label") }}
+            {{ form.nim(class="form-input", value=profile.nim) }}
+            {% for error in form.nim.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.kelas.label(class="form-label") }}
+            {{ form.kelas(class="form-input", value=profile.kelas) }}
+            {% for error in form.kelas.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.dosen_pengampu.label(class="form-label") }}
+            {{ form.dosen_pengampu(class="form-input", value=profile.dosen_pengampu) }}
+            {% for error in form.dosen_pengampu.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.headline.label(class="form-label") }}
+            {{ form.headline(class="form-input", value=profile.headline) }}
+            {% for error in form.headline.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.about.label(class="form-label") }}
+            {{ form.about(class="form-textarea", value=profile.about, rows="5") }}
+            {% for error in form.about.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.foto_profil.label(class="form-label") }}
+            {{ form.foto_profil(class="form-file-input") }}
+            {% for error in form.foto_profil.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+            {% if profile.foto_profil and profile.foto_profil != 'default-profile.jpg' %}
+            <div class="current-image">
+                <p>Foto profil saat ini:</p>
+                <img src="{{ url_for('uploaded_file', filename=profile.foto_profil) }}" alt="Current Profile Picture" style="max-width:200px; border-radius:50%;">
+            </div>
+            {% endif %}
+            <small class="form-text">Format file: JPG, JPEG, PNG, GIF, WEBP. Maksimal ukuran 5MB. Disarankan foto berbentuk persegi.</small>
+        </div>
+
+        <!-- Pendidikan as JSON -->
+        <div class="form-group">
+            <label for="pendidikan" class="form-label">Pendidikan (format JSON)</label>
+            <textarea id="pendidikan" name="pendidikan" class="form-textarea" rows="4">{{ pendidikan_json }}</textarea>
+            <small class="form-text">Contoh: [{"institusi": "Universitas XXX", "jurusan": "Teknik Informatika", "tahun": "2020-2024"}]
+</small>
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+
+    <hr>
+
+    <div class="admin-header">
+        <h2>Keterampilan yang Dimiliki</h2>
+        <a href="{{ url_for('admin_skills') }}" class="btn btn-outline">Manajemen Keterampilan</a>
+    </div>
+
+    {% if profile.skills %}
+    <div class="skills-tags">
+        {% for skill in profile.skills %}
+        <span class="tag">{{ skill.name }} ({{ skill.level }}%)</span>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>Belum ada keterampilan yang ditambahkan ke profil ini.</p>
+    {% endif %}
+</div>
+{% endblock %}

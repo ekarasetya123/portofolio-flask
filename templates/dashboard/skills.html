@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Keterampilan - Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Kelola Keterampilan</h1>
+        <a href="{{ url_for('add_skill') }}" class="btn btn-primary">Tambah Skill Baru</a>
+    </div>
+
+    {% if skills %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Nama Skill</th>
+                <th>Kategori</th>
+                <th>Tingkat (%)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for skill in skills %}
+            <tr>
+                <td>{{ skill.name }}</td>
+                <td>{{ skill.category }}</td>
+                <td>{{ skill.level }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('edit_skill', skill_id=skill.id) }}" class="btn btn-sm btn-outline">Edit</a>
+                    <form action="{{ url_for('delete_skill', skill_id=skill.id) }}" method="POST" style="display:inline;">
+                        {{ csrf_token() }}
+                        <button type="submit" class="btn btn-sm btn-outline" onclick="return confirm('Yakin ingin menghapus skill ini?');">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>Belum ada keterampilan yang ditambahkan.</p>
+        <a href="{{ url_for('add_skill') }}" class="btn btn-primary">Tambah Skill Pertama</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Proyek - Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Edit Proyek: {{ project.judul }}</h1>
+        <a href="{{ url_for('admin_projects') }}" class="btn btn-outline">Kembali ke Daftar Proyek</a>
+    </div>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.judul.label(class="form-label") }}
+            {{ form.judul(class="form-input", value=project.judul) }}
+            {% for error in form.judul.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.deskripsi_singkat.label(class="form-label") }}
+            {{ form.deskripsi_singkat(class="form-textarea", value=project.deskripsi_singkat) }}
+            {% for error in form.deskripsi_singkat.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.deskripsi_lengkap.label(class="form-label") }}
+            {{ form.deskripsi_lengkap(class="form-textarea", value=project.deskripsi_lengkap) }}
+            {% for error in form.deskripsi_lengkap.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.teknologi.label(class="form-label") }}
+            {{ form.teknologi(class="form-input", value=project.teknologi) }}
+            {% for error in form.teknologi.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.github_link.label(class="form-label") }}
+            {{ form.github_link(class="form-input", value=project.github_link) }}
+            {% for error in form.github_link.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.live_link.label(class="form-label") }}
+            {{ form.live_link(class="form-input", value=project.live_link) }}
+            {% for error in form.live_link.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.gambar.label(class="form-label") }}
+            {{ form.gambar(class="form-file-input") }}
+            {% for error in form.gambar.errors %}
+            <span class="error-message">{{ error }}</span>
+            {% endfor %}
+            {% if project.gambar and project.gambar != 'default-project.jpg' %}
+            <div class="current-image">
+                <p>Gambar saat ini:</p>
+                <img src="{{ url_for('uploaded_file', filename=project.gambar) }}" alt="Current Image" style="max-width:200px;">
+            </div>
+            {% endif %}
+            <small class="form-text">Biarkan kosong jika tidak ingin mengganti gambar. Format file: JPG, JPEG, PNG, GIF, WEBP. Maksimal ukuran 5MB.</small>
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

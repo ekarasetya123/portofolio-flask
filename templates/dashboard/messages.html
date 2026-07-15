@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Kotak Masuk - Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Kotak Masuk</h1>
+    </div>
+
+    {% if messages %}
+    <table class="messages-table">
+        <thead>
+            <tr>
+                <th>Pengirim</th>
+                <th>Email</th>
+                <th>Pesan</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in messages %}
+            <tr class="{% if not message.is_read %}unread{% endif %}">
+                <td>{{ message.name }}</td>
+                <td>{{ message.email }}</td>
+                <td class="message-snippet">{{ message.message[:100] }}{% if message.message|length > 100 %}...{% endif %}</td>
+                <td>{{ message.created_at.strftime('%d %b %Y %H:%M') }}</td>
+                <td>
+                    {% if message.is_read %}
+                    <span class="badge">Sudah Dibaca</span>
+                    {% else %}
+                    <span class="badge badge-warning">Belum Dibaca</span>
+                    {% endif %}
+                </td>
+                <td class="message-actions">
+                    {% if not message.is_read %}
+                    <form action="{{ url_for('mark_as_read', message_id=message.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-sm btn-outline">Tandai Dibaca</button>
+                    </form>
+                    {% endif %}
+                    <form action="{{ url_for('delete_message', message_id=message.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus pesan ini?');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>Belum ada pesan yang masuk.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

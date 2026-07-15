@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Portofolio - Portofolio{% endblock %}
+
+{% block content %}
+<section class="portfolio">
+    <div class="container">
+        <h2>Portofolio</h2>
+        <p>Berikut adalah kumpulan proyek-proyek yang telah saya kerjakan.</p>
+        <div class="projects-grid">
+            {% if projects %}
+            {% for project in projects %}
+                <div class="project-card">
+                    {% if project.gambar %}
+                    <img src="{{ url_for('uploaded_file', filename=project.gambar) }}" alt="{{ project.judul }}">
+                    {% else %}
+                    <div class="placeholder-image">Gambar Tidak Tersedia</div>
+                    {% endif %}
+                    <div class="project-info">
+                        <h3>{{ project.judul }}</h3>
+                        <p class="project-description">{{ project.deskripsi_singkat }}</p>
+                        <div class="project-tags">
+                            {% if project.teknologi %}
+                            {% for tech in project.teknologi.split(',') %}
+                            <span class="tag">{{ tech.strip() }}</span>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="project-links">
+                            <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn">Detail Proyek</a>
+                            {% if project.github_link %}
+                            <a href="{{ project.github_link }}" target="_blank" class="btn btn-outline">GitHub</a>
+                            {% endif %}
+                            {% if project.live_link %}
+                            <a href="{{ project.live_link }}" target="_blank" class="btn btn-outline">Demo Langsung</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>Belum ada proyek yang ditambahkan.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

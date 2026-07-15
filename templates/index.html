@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Beranda - Portofolio{% endblock %}
+
+{% block content %}
+    <!-- UNIQUE MARKER 12345 -->
+<section class="hero">
+    <div class="hero-content">
+        {% if profile and profile.foto_profil %}
+        <div class="profile-image">
+            <img src="{{ url_for('uploaded_file', filename=profile.foto_profil) }}" alt="Foto Profil {{ profile.nama_lengkap if profile else '' }}">
+        </div>
+        {% else %}
+        <div class="profile-image">
+            <img src="{{ url_for('static', filename='uploads/default-profile.jpg') }}" alt="Foto Profil">
+        </div>
+        {% endif %}
+        <div class="hero-text">
+            {% if profile %}
+            <h1>{{ profile.nama_lengkap }}</h1>
+            <div class="headline">{{ profile.headline }}</div>
+            <p class="bio">{{ profile.about[:200] }}{% if profile.about|length > 200 %}...{% endif %}</p>
+            <a href="{{ url_for('about') }}" class="btn">Selengkapnya</a>
+            {% else %}
+            <h1>Nama Anda</h1>
+            <div class="headline">Judul Tagline</div>
+            <p class="bio">Tentang singkat tentang Anda.</p>
+            <a href="#" class="btn">Selengkapnya</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="section">
+    <div class="container">
+        <h2>Keahlian</h2>
+        <div class="skills-container">
+            {% if skills %}
+            <div class="skills-progress">
+                {% for skill in skills %}
+                <div class="skill-item">
+                    <h3>{{ skill.name }}</h3>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: {{ skill.level }}%;"></div>
+                    </div>
+                    <p>{{ skill.level }}%</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>Belum ada keterampilan yang ditambahkan.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="section">
+    <div class="container">
+        <h2>Proyek Terbaru</h2>
+        <div class="projects-grid">
+            {% if projects %}
+            {% for project in projects %}
+                <div class="project-card">
+                    {% if project.gambar %}
+                    <img src="{{ url_for('uploaded_file', filename=project.gambar) }}" alt="{{ project.judul }}">
+                    {% else %}
+                    <div class="placeholder-image">Gambar Tidak Tersedia</div>
+                    {% endif %}
+                    <div class="project-info">
+                        <h3>{{ project.judul }}</h3>
+                        <p class="project-description">{{ project.deskripsi_singkat[:100] }}{% if project.deskripsi_singkat|length > 100 %}...{% endif %}</p>
+                        <div class="project-tags">
+                            {% if project.teknologi %}
+                            {% for tech in project.teknologi.split(',') %}
+                            <span class="tag">{{ tech.strip() }}</span>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn btn-outline">Detail Proyek</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>Belum ada proyek yang ditambahkan.</p>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('portfolio') }}" class="btn btn-lihat-semua btn-block mt-4">Lihat Semua Proyek</a>
+    <!-- TEST EDIT -->
+    </div>
+</section>
+{% endblock %}
