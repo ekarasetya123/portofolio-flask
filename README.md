@@ -109,6 +109,20 @@ portofolio-flask/
    gunicorn app:app
    ```
 
+## Kredensial Demo
+
+Setelah menjalankan `flask init-db`, akun admin default dibuat dengan:
+
+- Username: `admin`
+- Email: `admin@example.com`
+- Password: `admin`
+
+**Disarankan untuk segera mengganti password setelah masuk pertama kali.**
+
+## Demo Lengkap
+
+Anda dapat mencoba demonstrasi live aplikasi ini di: [https://portofolio-flask-example.onrender.com](https://portofolio-flask-example.onrender.com) (ganti dengan URL deployment Anda).
+
 ## Variabel Lingkungan
 
 Buat file `.env` berdasarkan `.env.example` dengan variabel berikut:
