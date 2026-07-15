@@ -402,7 +402,9 @@ def create_app(config_class=Config):
 
     return app
 
+# Flask instance for Vercel, Gunicorn, etc.
+app = create_app()
+
 # For running the app directly (e.g., during development)
 if __name__ == '__main__':
-    app = create_app()
     app.run(debug=True)
