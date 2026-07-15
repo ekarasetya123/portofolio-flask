@@ -1182,8 +1182,6 @@ footer {
     display: block;
 }
 
-.about-text { text-align: center; }
-
 /* --- About page specific layout --- */
 .section-container {
     max-width: 1100px;
@@ -1195,10 +1193,13 @@ footer {
     align-items: flex-start;
     gap: 60px;
     flex-wrap: wrap;
-    margin-bottom: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
-.about-intro img {
+.about-photo-wrapper {
     flex-shrink: 0;
+}
+.about-photo-wrapper img {
     width: 220px;
     height: 220px;
     border-radius: 50%;

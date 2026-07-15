@@ -7,11 +7,11 @@
     <div class="section-container">
         <h2>Tentang Saya</h2>
         <div class="about-intro">
-            <div class="profile-image">
+            <div class="about-photo-wrapper">
                 {% if profile.foto_profil %}
-                <img src="{{ url_for('uploaded_file', filename=profile.foto_profil) }}" alt="Foto Profil {{ profile.nama_lengkap }}">
+                <img src="{{ url_for('uploaded_file', filename=profile.foto_profil) }}" alt="Foto Profil {{ profile.nama_lengkap }}" class="about-photo">
                 {% else %}
-                <img src="{{ url_for('static', filename='uploads/default-profile.jpg') }}" alt="Foto Profil">
+                <img src="{{ url_for('static', filename='uploads/default-profile.jpg') }}" alt="Foto Profil" class="about-photo">
                 {% endif %}
             </div>
             <div class="about-text">
