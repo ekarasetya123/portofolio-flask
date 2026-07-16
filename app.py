@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, url_for, flash, request, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import secrets
@@ -25,6 +25,10 @@ def create_app(config_class=Config):
     login_manager.login_message_category = 'info'
     csrf = CSRFProtect()
     csrf.init_app(app)
+
+    @app.context_processor
+    def inject_csrf_token():
+        return dict(csrf_token=generate_csrf)
 
     # Create tables and default data
     with app.app_context():
