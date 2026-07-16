@@ -227,6 +227,7 @@ def create_app(config_class=Config):
             form.live_link.data = project.live_link
         return render_template('dashboard/edit_project.html', form=form, title='Edit Proyek', project=project)
 
+    @csrf.exempt
     @app.route('/dashboard/project/delete/<int:project_id>', methods=['POST'])
     @login_required
     def delete_project(project_id):
