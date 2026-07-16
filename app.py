@@ -26,6 +26,20 @@ def create_app(config_class=Config):
     csrf = CSRFProtect()
     csrf.init_app(app)
 
+    # Create tables and default data
+    with app.app_context():
+        db.create_all()
+        # Create default profile if not exists
+        if not Profile.query.first():
+            profile = Profile(nama_lengkap='Nama Anda', headline='Judul Tagline', about='Tentang saya...')
+            db.session.add(profile)
+        # Create admin user if not exists
+        if not User.query.filter_by(username='admin').first():
+            admin = User(username='admin', email='admin@example.com', is_admin=True)
+            admin.set_password('admin')
+            db.session.add(admin)
+        db.session.commit()
+
     # Context processor supaya {{ now() }} bisa dipakai di semua template
     @app.context_processor
     def inject_now():
@@ -39,21 +53,7 @@ def create_app(config_class=Config):
     # Ensure upload folder exists
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    # Create tables and default data on first request
-    @app.before_first_request
-    def create_tables():
-        db.create_all()
-        # Create default profile if not exists
-        if not Profile.query.first():
-            profile = Profile(nama_lengkap='Nama Anda', headline='Judul Tagline', about='Tentang saya...')
-            db.session.add(profile)
-        # Create admin user if not exists
-        if not User.query.filter_by(username='admin').first():
-            admin = User(username='admin', email='admin@example.com', is_admin=True)
-            admin.set_password('admin')
-            db.session.add(admin)
-        db.session.commit()
-
+    
     # Helper function to save uploaded file
     def save_picture(form_picture):
         random_hex = secrets.token_hex(8)
@@ -335,10 +335,10 @@ def create_app(config_class=Config):
                 proficiency = int(form.level.data)
                 if proficiency < 0 or proficiency > 100:
                     flash('Tingkat kepahiran harus antara 0 dan 100.', 'danger')
-                    return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill')
+                    return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill', skill=skill)
             except ValueError:
                 flash('Tingkat kepahiran harus berupa angka.', 'danger')
-                return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill')
+                return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill', skill=skill)
             skill.name = form.nama.data
             skill.category = form.kategori.data
             skill.level = proficiency
