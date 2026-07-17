@@ -137,7 +137,7 @@ header {
     transition: var(--transition-fast);
 }
 
-/ Mobile menu styles /
+/* Mobile menu styles */
 @media (max-width: 992px) {
     .nav-menu {
         position: fixed;
@@ -1291,4 +1291,75 @@ footer {
     .skills-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 768px) {
+  
+  /* Foto hero jadi lebih kecil & center */
+  .hero-photo,
+  .about-photo {
+    width: 160px !important;
+    height: 160px !important;
+    margin: 0 auto 20px !important;
+  }
+
+  /* Section hero jadi stack (foto di atas, teks di bawah), bukan sejajar */
+  .hero-content,
+  .about-intro {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 20px !important;
+  }
+
+  /* Kecilkan heading nama supaya tidak kepotong aneh */
+  .hero-content h1,
+  .about-text h2 {
+    font-size: 28px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Headline (Backend Developer...) */
+  .headline {
+    font-size: 16px !important;
+    text-align: center !important;
+  }
+
+  /* Paragraf about, biar tidak mepet ke tepi layar */
+  .about-text p,
+  .hero-content p {
+    padding: 0 16px !important;
+    font-size: 15px !important;
+  }
+
+  /* Navbar: kalau menu horizontal kepanjangan, kecilkan font/spacing */
+  .navbar a {
+    font-size: 14px !important;
+    padding: 6px 8px !important;
+  }
+
+  /* Container utama, kurangi padding kiri-kanan di layar sempit */
+  .container-main {
+    padding: 0 16px !important;
+  }
+
+  /* Grid skill/proyek jadi 1 kolom di HP */
+  .skills-grid,
+  .portfolio-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-photo,
+  .about-photo {
+    width: 130px !important;
+    height: 130px !important;
+  }
+
+  .hero-content h1,
+  .about-text h2 {
+    font-size: 24px !important;
+  }
 }
