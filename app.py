@@ -39,20 +39,9 @@ def create_app(config_class=Config):
     # Ensure upload folder exists
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    # Create tables and default data on first request
-    @app.before_first_request
-    def create_tables():
+    # Buat tabel jika belum ada (data awal diisi lewat seed.py, bukan di sini)
+    with app.app_context():
         db.create_all()
-        # Create default profile if not exists
-        if not Profile.query.first():
-            profile = Profile(nama_lengkap='Nama Anda', headline='Judul Tagline', about='Tentang saya...')
-            db.session.add(profile)
-        # Create admin user if not exists
-        if not User.query.filter_by(username='admin').first():
-            admin = User(username='admin', email='admin@example.com', is_admin=True)
-            admin.set_password('admin')
-            db.session.add(admin)
-        db.session.commit()
 
     # Helper function to save uploaded file
     def save_picture(form_picture):
