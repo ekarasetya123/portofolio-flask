@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, url_for, flash, request, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import secrets
@@ -25,6 +25,11 @@ def create_app(config_class=Config):
     login_manager.login_message_category = 'info'
     csrf = CSRFProtect()
     csrf.init_app(app)
+
+    @app.context_processor
+    def inject_csrf_token():
+        return dict(csrf_token=generate_csrf)
+
 
     # Context processor supaya {{ now() }} bisa dipakai di semua template
     @app.context_processor
@@ -324,10 +329,10 @@ def create_app(config_class=Config):
                 proficiency = int(form.level.data)
                 if proficiency < 0 or proficiency > 100:
                     flash('Tingkat kepahiran harus antara 0 dan 100.', 'danger')
-                    return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill')
+                    return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill', skill=skill)
             except ValueError:
                 flash('Tingkat kepahiran harus berupa angka.', 'danger')
-                return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill')
+                return render_template('dashboard/edit_skill.html', form=form, title='Edit Skill', skill=skill)
             skill.name = form.nama.data
             skill.category = form.kategori.data
             skill.level = proficiency

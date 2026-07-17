@@ -13,7 +13,7 @@
         {{ form.hidden_tag() }}
         <div class="form-group">
             {{ form.nama.label(class="form-label") }}
-            {{ form.nama(class="form-input", value=skill.name) }}
+            {{ form.nama(class="form-input") }}
             {% for error in form.nama.errors %}
             <span class="error-message">{{ error }}</span>
             {% endfor %}
@@ -21,7 +21,7 @@
 
         <div class="form-group">
             {{ form.kategori.label(class="form-label") }}
-            {{ form.kategori(class="form-input", value=skill.category) }}
+            {{ form.kategori(class="form-input") }}
             {% for error in form.kategori.errors %}
             <span class="error-message">{{ error }}</span>
             {% endfor %}
@@ -29,7 +29,7 @@
 
         <div class="form-group">
             {{ form.level.label(class="form-label") }}
-            {{ form.level(class="form-input", value=skill.level) }}
+            {{ form.level(class="form-input") }}
             {% for error in form.level.errors %}
             <span class="error-message">{{ error }}</span>
             {% endfor %}
